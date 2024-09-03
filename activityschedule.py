@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from streamlit_dragndrop import st_dragndrop
 
 # Initialize session state
 if 'templates' not in st.session_state:
@@ -41,7 +40,7 @@ if 'current_template' not in st.session_state:
     st.session_state.current_template = 'Siphons Template'
 
 # Streamlit app
-st.title('Advanced Siphons Template Filler')
+st.title('Simplified Siphons Template Filler')
 
 # Sidebar for template selection and management
 with st.sidebar:
@@ -69,12 +68,10 @@ tab1, tab2, tab3 = st.tabs(["Roles", "Tasks", "Assignment"])
 with tab1:
     st.subheader("Role Management")
     
-    # Drag and drop for roles
+    # Simple list for roles
     roles = list(st.session_state.templates[st.session_state.current_template]['roles'].keys())
-    updated_roles = st_dragndrop(roles, key="roles")
-    
-    if updated_roles != roles:
-        st.session_state.templates[st.session_state.current_template]['roles'] = {role: st.session_state.templates[st.session_state.current_template]['roles'][role] for role in updated_roles}
+    for i, role in enumerate(roles):
+        st.write(f"{i+1}. {role}")
     
     new_role = st.text_input("Add new role")
     if st.button("Add Role"):
@@ -90,12 +87,10 @@ with tab1:
 with tab2:
     st.subheader("Task Management")
     
-    # Drag and drop for main tasks
+    # Simple list for main tasks
     main_tasks = list(st.session_state.templates[st.session_state.current_template]['tasks'].keys())
-    updated_main_tasks = st_dragndrop(main_tasks, key="main_tasks")
-    
-    if updated_main_tasks != main_tasks:
-        st.session_state.templates[st.session_state.current_template]['tasks'] = {task: st.session_state.templates[st.session_state.current_template]['tasks'][task] for task in updated_main_tasks}
+    for i, task in enumerate(main_tasks):
+        st.write(f"{i+1}. {task}")
     
     new_main_task = st.text_input("Add new main task")
     if st.button("Add Main Task"):
@@ -114,14 +109,10 @@ with tab2:
     st.subheader("Sub-task Management")
     main_task_for_subtask = st.selectbox("Select main task for sub-task", options=list(st.session_state.templates[st.session_state.current_template]['tasks'].keys()))
     
-    # Drag and drop for sub-tasks
+    # Simple list for sub-tasks
     sub_tasks = list(st.session_state.templates[st.session_state.current_template]['tasks'][main_task_for_subtask]['sub_tasks'].keys())
-    updated_sub_tasks = st_dragndrop(sub_tasks, key="sub_tasks")
-    
-    if updated_sub_tasks != sub_tasks:
-        st.session_state.templates[st.session_state.current_template]['tasks'][main_task_for_subtask]['sub_tasks'] = {
-            task: st.session_state.templates[st.session_state.current_template]['tasks'][main_task_for_subtask]['sub_tasks'][task] for task in updated_sub_tasks
-        }
+    for i, task in enumerate(sub_tasks):
+        st.write(f"{i+1}. {task}")
     
     new_sub_task = st.text_input("Add new sub-task")
     if st.button("Add Sub-task"):
